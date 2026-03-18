@@ -16,7 +16,7 @@ This project adds a 1-click Pinokio launcher for [Hermes Agent](https://github.c
 2. Click `Setup` to run `hermes setup` and configure your provider, model, tools, and optional messaging integrations.
 3. Click `Start` to open the Hermes interactive terminal.
 4. Use `Update` to pull the latest launcher and app changes.
-5. Use `Reset` to remove the cloned app and any legacy project-local `hermes-home/` directory from older launcher revisions.
+5. Use `Reset` to remove the cloned app.
 
 Hermes stores its state here:
 
