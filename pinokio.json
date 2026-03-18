@@ -1,0 +1,5 @@
+{
+  "title": "Hermes Agent",
+  "description": "Self-improving CLI agent by Nous Research with local memory, skills, and messaging workflows.",
+  "icon": "icon.png"
+}
