@@ -15,6 +15,8 @@ module.exports = {
     let running = {
       install: info.running("install.js"),
       start: info.running("start.js"),
+      startNoGateway: info.running("start-no-gateway.js"),
+      gateway: info.running("gateway.js"),
       setup: info.running("setup.js"),
       update: info.running("update.js"),
       reset: info.running("reset.js"),
@@ -30,9 +32,48 @@ module.exports = {
       if (running.start) {
         return [{
           default: true,
-          icon: "fa-solid fa-terminal",
-          text: "Hermes Terminal",
+          icon: "fa-solid fa-rocket",
+          text: "Launch",
           href: "start.js",
+        }]
+      } else if (running.startNoGateway) {
+        return [{
+          default: true,
+          icon: "fa-solid fa-terminal",
+          text: "Launch Without Gateway",
+          href: "start-no-gateway.js",
+        }]
+      } else if (running.gateway) {
+        return [{
+          default: true,
+          icon: "fa-solid fa-share-nodes",
+          text: "Gateway",
+          href: "gateway.js",
+        }, {
+          icon: "fa-solid fa-rocket",
+          text: "Launch",
+          href: "start.js",
+        }, {
+          icon: "fa-solid fa-terminal",
+          text: "Launch Without Gateway",
+          href: "start-no-gateway.js",
+        }, {
+          icon: "fa-solid fa-sliders",
+          text: "Setup",
+          href: "setup.js",
+        }, {
+          icon: "fa-solid fa-rotate",
+          text: "Update",
+          href: "update.js",
+        }, {
+          icon: "fa-solid fa-plug",
+          text: "Install",
+          href: "install.js",
+        }, {
+          icon: "fa-regular fa-circle-xmark",
+          text: "Reset",
+          href: "reset.js",
+          confirm: "Are you sure you wish to reset the app?"
         }]
       } else if (running.setup) {
         return [{
@@ -62,10 +103,13 @@ module.exports = {
           text: "Setup",
           href: "setup.js",
         }, {
-          default: configured,
-          icon: "fa-solid fa-terminal",
-          text: "Start",
+          icon: "fa-solid fa-rocket",
+          text: "Launch",
           href: "start.js",
+        }, {
+          icon: "fa-solid fa-terminal",
+          text: "Launch Without Gateway",
+          href: "start-no-gateway.js",
         }, {
           icon: "fa-solid fa-rotate",
           text: "Update",
