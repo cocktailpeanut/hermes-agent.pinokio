@@ -50,7 +50,22 @@ module.exports = {
           PYTHONIOENCODING: "utf-8"
         },
         message: "hermes",
-        input: true
+        input: true,
+        onprompt: (shell) => {
+          shell.kill("Done")
+        }
+      }
+    },
+    {
+      method: "shell.run",
+      params: {
+        venv: "env",
+        path: "app",
+        env: {
+          PYTHONUTF8: "1",
+          PYTHONIOENCODING: "utf-8"
+        },
+        message: "hermes gateway stop"
       }
     }
   ]

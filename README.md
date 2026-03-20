@@ -32,7 +32,7 @@ Hermes stores its state here:
 - The launcher uses Pinokio `venv` / `venv_python` handling for the Python environment instead of manual shell activation logic.
 - This launcher intentionally uses Hermes' default `~/.hermes` instead of overriding `HERMES_HOME`.
 - `Launch` now uses a plain Pinokio multi-step flow in [start.js](./start.js): first `hermes gateway`, then `hermes` in a second shell under the same launcher tab.
-- Because `start.js` is not a daemon script, closing the `Launch` session lets Pinokio tear down the gateway shell that was started for that same launch.
+- When the `Launch` terminal returns to the shell prompt, `start.js` now runs `hermes gateway stop` as a cleanup step so the gateway is always shut down at the end of that launch flow.
 - If an older standalone `gateway.js` session is still running, both launch modes stop that helper first so Pinokio does not keep two launcher sessions active.
 - `Reset` does not remove `~/.hermes`, since that is the user's global Hermes home.
 - I avoided Unix-only setup snippets in the launcher scripts; the remaining platform limitations come from Hermes upstream, not from the launcher shell glue.
