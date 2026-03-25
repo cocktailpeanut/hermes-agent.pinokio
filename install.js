@@ -5,16 +5,7 @@ module.exports = {
       method: "shell.run",
       params: {
         message: [
-          "git clone --recurse-submodules https://github.com/NousResearch/hermes-agent.git app",
-        ]
-      }
-    },
-    {
-      method: "shell.run",
-      params: {
-        path: "app",
-        message: [
-          "git submodule update --init --recursive",
+          "git clone https://github.com/NousResearch/hermes-agent.git app",
         ]
       }
     },
@@ -26,7 +17,6 @@ module.exports = {
         path: "app",
         message: [
           "uv pip install -e \".[all]\"",
-          "uv pip install -e ./mini-swe-agent",
         ]
       }
     },

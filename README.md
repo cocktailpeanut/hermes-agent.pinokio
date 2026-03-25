@@ -4,9 +4,9 @@ This project adds a 1-click Pinokio launcher for [Hermes Agent](https://github.c
 
 ## What This Launcher Does
 
-- Clones the Hermes Agent repository with its required submodules into `app/`
+- Clones the Hermes Agent repository into `app/`
 - Creates a Pinokio-managed Python 3.11 virtual environment at `app/env`
-- Installs the main Hermes package plus the required `mini-swe-agent` backend
+- Installs the main Hermes package from the repository root with Hermes' current `.[all]` extras set
 - Runs `npm install` in the app root for browser tooling support
 - Uses Hermes' default config, auth, memory, and session storage under `~/.hermes`
 
@@ -17,7 +17,7 @@ This project adds a 1-click Pinokio launcher for [Hermes Agent](https://github.c
 3. Click `Launch` to start Hermes Gateway and then open the Hermes interactive terminal inside the same Pinokio launcher session.
 4. Click `Launch Without Gateway` to open the Hermes interactive terminal only.
 5. If an older standalone `Gateway` helper is still running from a previous launcher version, you can stop it or click `Launch` to fold gateway ownership back into the main launch flow.
-6. Use `Update` to pull the latest launcher and app changes.
+6. Use `Update` to pull the latest launcher and app changes, then rebuild Python and Node dependencies from a clean state.
 7. Use `Reset` to remove the cloned app.
 
 Hermes stores its state here:
@@ -28,7 +28,6 @@ Hermes stores its state here:
 ## Notes
 
 - Native Windows is not supported upstream by Hermes itself. This launcher now forces UTF-8 console I/O for `hermes` and `hermes gateway` to avoid the Windows Unicode crashes shown in the launcher logs, but upstream Windows edge cases may still remain.
-- This launcher installs the main package, `mini-swe-agent`, and Node dependencies. The optional `tinker-atropos` RL backend is not installed by default.
 - The launcher uses Pinokio `venv` / `venv_python` handling for the Python environment instead of manual shell activation logic.
 - This launcher intentionally uses Hermes' default `~/.hermes` instead of overriding `HERMES_HOME`.
 - `Launch` now uses a plain Pinokio multi-step flow in [start.js](./start.js): first `hermes gateway`, then `hermes` in a second shell under the same launcher tab.
