@@ -16,7 +16,7 @@ module.exports = {
         venv_python: "3.11",
         path: "app",
         message: [
-          "uv pip install -e \".[all]\"",
+          "uv pip install -e \"{{platform === 'win32' ? '.[modal,daytona,messaging,cron,cli,dev,tts-premium,slack,pty,honcho,mcp,homeassistant,sms,acp,voice,dingtalk,feishu]' : '.[all]'}}\"",
         ]
       }
     },
