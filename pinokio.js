@@ -6,6 +6,9 @@ module.exports = {
   title: "Hermes Agent",
   description: "A self-improving AI agent with terminal, memory, skills, and messaging workflows.",
   icon: "icon.png",
+  plugins: [
+    "plugins/no-gateway/pinokio.js"
+  ],
   menu: async (kernel, info) => {
     let hermesHome = path.join(os.homedir(), ".hermes")
     let installed = info.exists("app/env")
