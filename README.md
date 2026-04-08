@@ -6,7 +6,7 @@ This project adds a 1-click Pinokio launcher for [Hermes Agent](https://github.c
 
 - Clones the Hermes Agent repository into `app/`
 - Creates a Pinokio-managed Python 3.11 virtual environment at `app/env`
-- Installs the main Hermes package from the repository root with Hermes' current `.[all]` extras set
+- Installs the main Hermes package from the repository root, dynamically omitting the `matrix` extra on Windows to avoid native build failures, while keeping `.[all]` for macOS/Linux
 - Runs `npm install` in the app root for browser tooling support
 - Uses Hermes' default config, auth, memory, and session storage under `~/.hermes`
 

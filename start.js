@@ -49,7 +49,7 @@ module.exports = {
           PYTHONUTF8: "1",
           PYTHONIOENCODING: "utf-8"
         },
-        message: "hermes",
+        message: "python -c \"import sys, getpass; getpass.getpass=lambda p='', stream=None: input(p); sys.argv=['hermes']; from hermes_cli.main import main; main()\"",
         input: true,
         onprompt: (shell) => {
           shell.kill("Done")
