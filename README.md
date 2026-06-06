@@ -18,7 +18,8 @@ This project adds a 1-click Pinokio launcher for [Hermes Agent](https://github.c
 4. Click `Launch Without Gateway` to open the Hermes interactive terminal only.
 5. If an older standalone `Gateway` helper is still running from a previous launcher version, you can stop it or click `Launch` to fold gateway ownership back into the main launch flow.
 6. Use `Update` to pull the latest launcher and app changes, then rebuild Python and Node dependencies from a clean state.
-7. Use `Reset` to remove the cloned app.
+7. Use `Reset` to stop Hermes Gateway and remove the cloned app while keeping your Hermes configuration and data.
+8. Use `Uninstall` to stop Hermes Gateway and remove both the cloned app and Hermes' home directory.
 
 Hermes stores its state here:
 
@@ -33,7 +34,8 @@ Hermes stores its state here:
 - `Launch` now uses a plain Pinokio multi-step flow in [start.js](./start.js): first `hermes gateway`, then `hermes` in a second shell under the same launcher tab.
 - When the `Launch` terminal returns to the shell prompt, `start.js` now runs `hermes gateway stop` as a cleanup step so the gateway is always shut down at the end of that launch flow.
 - If an older standalone `gateway.js` session is still running, both launch modes stop that helper first so Pinokio does not keep two launcher sessions active.
-- `Reset` does not remove `~/.hermes`, since that is the user's global Hermes home.
+- `Reset` stops any running Hermes Gateway before removing `app/`, but it does not remove `~/.hermes`, since that is the user's global Hermes home.
+- `Uninstall` removes `~/.hermes`, including provider config, auth, sessions, logs, memories, and skills. It does not remove shared package-manager caches such as uv, pip, npm, or Pinokio's own launcher metadata.
 - I avoided Unix-only setup snippets in the launcher scripts; the remaining platform limitations come from Hermes upstream, not from the launcher shell glue.
 
 ## Programmatic Usage

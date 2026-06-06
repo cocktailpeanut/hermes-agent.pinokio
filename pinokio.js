@@ -11,10 +11,23 @@ module.exports = {
   ],
   menu: async (kernel, info) => {
     let hermesHome = path.join(os.homedir(), ".hermes")
+    let hasHermesHome = info.exists(hermesHome)
     let installed = info.exists("app/env")
     let configured = info.exists(path.join(hermesHome, "config.yaml")) ||
       info.exists(path.join(hermesHome, "auth.json")) ||
       info.exists(path.join(hermesHome, "state.db"))
+    let uninstallItem = {
+      icon: "fa-solid fa-trash",
+      text: "Uninstall",
+      href: "uninstall.js",
+      confirm: "Uninstall Hermes Agent? This removes app/ and ~/.hermes, including config, auth, sessions, logs, memories, and skills."
+    }
+    let resetItem = {
+      icon: "fa-regular fa-circle-xmark",
+      text: "Reset",
+      href: "reset.js",
+      confirm: "Reset Hermes Agent? This stops any Hermes gateway and removes app/, but keeps ~/.hermes."
+    }
     let running = {
       install: info.running("install.js"),
       start: info.running("start.js"),
@@ -23,8 +36,16 @@ module.exports = {
       setup: info.running("setup.js"),
       update: info.running("update.js"),
       reset: info.running("reset.js"),
+      uninstall: info.running("uninstall.js"),
     }
-    if (running.install) {
+    if (running.uninstall) {
+      return [{
+        default: true,
+        icon: "fa-solid fa-trash",
+        text: "Uninstalling",
+        href: "uninstall.js",
+      }]
+    } else if (running.install) {
       return [{
         default: true,
         icon: "fa-solid fa-plug",
@@ -72,12 +93,7 @@ module.exports = {
           icon: "fa-solid fa-plug",
           text: "Install",
           href: "install.js",
-        }, {
-          icon: "fa-regular fa-circle-xmark",
-          text: "Reset",
-          href: "reset.js",
-          confirm: "Are you sure you wish to reset the app?"
-        }]
+        }, resetItem, uninstallItem]
       } else if (running.setup) {
         return [{
           default: true,
@@ -121,20 +137,19 @@ module.exports = {
           icon: "fa-solid fa-plug",
           text: "Install",
           href: "install.js",
-        }, {
-          icon: "fa-regular fa-circle-xmark",
-          text: "Reset",
-          href: "reset.js",
-          confirm: "Are you sure you wish to reset the app?"
-        }]
+        }, resetItem, uninstallItem]
       }
     } else {
-      return [{
+      let items = [{
         default: true,
         icon: "fa-solid fa-plug",
         text: "Install",
         href: "install.js",
       }]
+      if (hasHermesHome) {
+        items.push(uninstallItem)
+      }
+      return items
     }
   }
 }

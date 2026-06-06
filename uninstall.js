@@ -1,3 +1,8 @@
+const os = require("os")
+const path = require("path")
+
+const hermesHome = process.env.HERMES_HOME || path.join(os.homedir(), ".hermes")
+
 module.exports = {
   run: [
     {
@@ -43,6 +48,13 @@ module.exports = {
       }
     },
     {
+      when: "{{running('reset.js')}}",
+      method: "script.stop",
+      params: {
+        uri: "reset.js"
+      }
+    },
+    {
       method: "shell.run",
       params: {
         message: "node stop-gateway.cjs"
@@ -52,6 +64,12 @@ module.exports = {
       method: "fs.rm",
       params: {
         path: "app"
+      }
+    },
+    {
+      method: "fs.rm",
+      params: {
+        path: hermesHome
       }
     }
   ]
