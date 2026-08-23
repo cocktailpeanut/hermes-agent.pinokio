@@ -43,6 +43,21 @@ module.exports = {
       }
     },
     {
+      // see sitecustomize.py: works around an open upstream Rich bug
+      // (Devanagari combining marks measured as zero-width) that garbles
+      // Hindi output in the Hermes TUI. Reinstalled here since update.js
+      // wipes and recreates app/env above.
+      when: "{{exists('app/.git')}}",
+      method: "shell.run",
+      params: {
+        venv: "env",
+        path: "app",
+        message: [
+          "python ../install_sitecustomize.py",
+        ]
+      }
+    },
+    {
       when: "{{exists('app/.git') && exists('app/package-lock.json')}}",
       method: "shell.run",
       params: {
