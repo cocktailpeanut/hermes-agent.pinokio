@@ -54,3 +54,35 @@ try:
 except Exception:
     # Never let this best-effort patch break interpreter startup.
     pass
+
+
+# ---------------------------------------------------------------------------
+# The interactive `hermes` chat is driven through prompt_toolkit's
+# patch_stdout.StdoutProxy (see agent/display.py), which is a *separate*
+# rendering pipeline from Rich with its own width calculation: prompt_toolkit
+# sizes every string via prompt_toolkit.utils.get_cwidth(), which is backed
+# by the `wcwidth` PyPI package -- not rich._unicode_data at all. wcwidth has
+# the identical bug (confirmed): U+093F, U+0940, U+0902, etc. all measure 0.
+# Patching Rich alone does nothing for this path, which is why the live chat
+# still ghosted after the first fix.
+#
+# get_cwidth()/wcwidth() can't be monkeypatched by function replacement
+# either -- both prompt_toolkit.formatted_text.utils and wcwidth's own
+# internals import the underlying names directly into their own module
+# namespaces, so a replaced function object wouldn't be seen by callers that
+# already bound the original. Instead, pre-seed prompt_toolkit's shared
+# `_CHAR_SIZES_CACHE` dict (get_cwidth's single-character cache) with the
+# corrected width for every Devanagari codepoint that wcwidth gets wrong.
+# Since __missing__ only fires for keys not already present, every later
+# get_cwidth() call -- from any module, however it imported the function --
+# reads the same dict object and gets the corrected value directly.
+try:
+    from wcwidth import wcwidth as _wcwidth
+    import prompt_toolkit.utils as _pt_utils
+
+    for _codepoint in range(_DEVANAGARI_START, _DEVANAGARI_END + 1):
+        _char = chr(_codepoint)
+        if _char not in _pt_utils._CHAR_SIZES_CACHE and max(0, _wcwidth(_char)) == 0:
+            _pt_utils._CHAR_SIZES_CACHE[_char] = 1
+except Exception:
+    pass
