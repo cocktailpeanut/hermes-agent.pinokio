@@ -21,6 +21,17 @@ module.exports = {
       }
     },
     {
+      // app/package.json pins npm to "<11.10.0 || >=11.17.0" (engine-strict) to avoid
+      // a broken npm release range. Upgrade npm first so the install below doesn't
+      // hit EBADENGINE on whatever npm ships with the machine's node install.
+      method: "shell.run",
+      params: {
+        message: [
+          "npm install -g npm@latest",
+        ]
+      }
+    },
+    {
       method: "shell.run",
       params: {
         path: "app",

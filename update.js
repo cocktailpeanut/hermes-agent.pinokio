@@ -43,6 +43,15 @@ module.exports = {
       }
     },
     {
+      // see install.js for why npm is upgraded before installing app/ dependencies
+      method: "shell.run",
+      params: {
+        message: [
+          "npm install -g npm@latest",
+        ]
+      }
+    },
+    {
       when: "{{exists('app/.git') && exists('app/package-lock.json')}}",
       method: "shell.run",
       params: {
