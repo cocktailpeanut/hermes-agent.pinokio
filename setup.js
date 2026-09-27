@@ -3,7 +3,7 @@ module.exports = {
     {
       method: "shell.run",
       params: {
-        venv: "env",
+        conda: "conda_env",
         path: "app",
         message: "hermes setup",
         input: true,

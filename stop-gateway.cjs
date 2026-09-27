@@ -18,7 +18,7 @@ function writeBufferedOutput(result) {
 }
 
 function hermesCandidates() {
-  const venvDir = path.join(appDir, "env");
+  const venvDir = path.join(appDir, "conda_env");
   if (process.platform === "win32") {
     const scriptsDir = path.join(venvDir, "Scripts");
     return ["hermes.exe", "hermes.cmd", "hermes.bat", "hermes"].map((name) => path.join(scriptsDir, name));

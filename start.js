@@ -27,7 +27,7 @@ module.exports = {
       when: "{{local.gateway_action !== 'reuse'}}",
       method: "shell.run",
       params: {
-        venv: "env",
+        conda: "conda_env",
         path: "app",
         env: {
           PYTHONUTF8: "1",
@@ -43,7 +43,7 @@ module.exports = {
     {
       method: "shell.run",
       params: {
-        venv: "env",
+        conda: "conda_env",
         path: "app",
         env: {
           PYTHONUTF8: "1",
@@ -59,7 +59,7 @@ module.exports = {
     {
       method: "shell.run",
       params: {
-        venv: "env",
+        conda: "conda_env",
         path: "app",
         env: {
           PYTHONUTF8: "1",
