@@ -10,12 +10,21 @@ module.exports = {
     "plugins/no-gateway/pinokio.js"
   ],
   menu: async (kernel, info) => {
-    let hermesHome = path.join(os.homedir(), ".hermes")
-    let hasHermesHome = info.exists(hermesHome)
-    let installed = info.exists("app/env")
-    let configured = info.exists(path.join(hermesHome, "config.yaml")) ||
-      info.exists(path.join(hermesHome, "auth.json")) ||
-      info.exists(path.join(hermesHome, "state.db"))
+    let winHermesHome = process.env.LOCALAPPDATA
+      ? path.join(process.env.LOCALAPPDATA, "hermes")
+      : path.join(os.homedir(), "AppData", "Local", "hermes")
+    let defaultHermesHome = path.join(os.homedir(), ".hermes")
+
+    let winHermesExists = info.exists(winHermesHome)
+    let defaultHermesExists = info.exists(defaultHermesHome)
+    let hasHermesHome = winHermesExists || defaultHermesExists
+    let installed = info.exists("app/conda_env")
+
+    // configured ist nur true, wenn der Ordner existiert UND die config.yaml darin liegt
+    let configured = 
+      (winHermesExists && info.exists(path.join(winHermesHome, "config.yaml"))) ||
+      (defaultHermesExists && info.exists(path.join(defaultHermesHome, "config.yaml")))
+
     let uninstallItem = {
       icon: "fa-solid fa-trash",
       text: "Uninstall",
@@ -122,6 +131,7 @@ module.exports = {
           text: "Setup",
           href: "setup.js",
         }, {
+          default: configured,
           icon: "fa-solid fa-rocket",
           text: "Launch",
           href: "start.js",

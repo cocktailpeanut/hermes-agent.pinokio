@@ -12,8 +12,18 @@ module.exports = {
     {
       method: "shell.run",
       params: {
-        venv: "env",
-        venv_python: "3.11",
+        path: "app",
+        conda: {
+          path: "conda_env",
+          python: "python=3.14"
+        },
+        message: "conda install -y -c conda-forge nodejs=26.10.0",
+      }
+    },
+    {
+      method: "shell.run",
+      params: {
+        conda: "conda_env",
         path: "app",
         message: [
           "uv pip install -e \".[all]\"",
@@ -23,6 +33,7 @@ module.exports = {
     {
       method: "shell.run",
       params: {
+        conda: "conda_env",
         path: "app",
         message: [
           "npm install",
