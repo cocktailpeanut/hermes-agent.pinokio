@@ -1,7 +1,11 @@
 const os = require("os")
 const path = require("path")
 
-const hermesHome = process.env.HERMES_HOME || path.join(os.homedir(), ".hermes")
+const winHermesHome = process.env.LOCALAPPDATA
+  ? path.join(process.env.LOCALAPPDATA, "hermes")
+  : path.join(os.homedir(), "AppData", "Local", "hermes")
+
+const defaultHermesHome = process.env.HERMES_HOME || path.join(os.homedir(), ".hermes")
 
 module.exports = {
   run: [
@@ -69,7 +73,13 @@ module.exports = {
     {
       method: "fs.rm",
       params: {
-        path: hermesHome
+        path: winHermesHome
+      }
+    },
+    {
+      method: "fs.rm",
+      params: {
+        path: defaultHermesHome
       }
     }
   ]
