@@ -43,6 +43,7 @@ module.exports = {
       startNoGateway: info.running("start-no-gateway.js"),
       gateway: info.running("gateway.js"),
       setup: info.running("setup.js"),
+      model: info.running("model.js"),
       update: info.running("update.js"),
       reset: info.running("reset.js"),
       uninstall: info.running("uninstall.js"),
@@ -106,9 +107,16 @@ module.exports = {
       } else if (running.setup) {
         return [{
           default: true,
-          icon: "fa-solid fa-sliders",
-          text: "Configuring",
+          icon: configured ? "fa-solid fa-rocket" : "fa-solid fa-sliders",
+          text: configured ? "Launch" : "Configuring",
           href: "setup.js",
+        }]
+      } else if (running.model) {
+        return [{
+          default: true,
+          icon: "fa-solid fa-microchip",
+          text: "Choosing Model",
+          href: "model.js",
         }]
       } else if (running.update) {
         return [{
@@ -139,6 +147,10 @@ module.exports = {
           icon: "fa-solid fa-terminal",
           text: "Launch Without Gateway",
           href: "start-no-gateway.js",
+        }, {
+          icon: "fa-solid fa-microchip",
+          text: "Choose Model",
+          href: "model.js",
         }, {
           icon: "fa-solid fa-rotate",
           text: "Update",

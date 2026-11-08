@@ -16,7 +16,7 @@ module.exports = {
           PYTHONUTF8: "1",
           PYTHONIOENCODING: "utf-8"
         },
-        message: "hermes",
+        message: "python ../flush-console-input.py && hermes",
         input: true
       }
     }
