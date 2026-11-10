@@ -30,7 +30,8 @@ Hermes stores its state here:
 
 ## Notes
 
-- Pinokio remembers the last selected launcher tab and runs it again when the app is opened. `setup.js` therefore checks for `config.yaml` and never repeats the wizard: once Hermes is configured it starts Hermes instead.
+- Pinokio auto-executes menu items marked `default`. `Launch` is therefore deliberately not a default item: otherwise quitting Hermes would end the launch script and Pinokio would start it again right away. `Install` and `Setup` stay default so a fresh install still runs through onboarding and into the first launch automatically.
+- `setup.js` checks for `config.yaml` and never repeats the wizard: once Hermes is configured it starts Hermes instead of showing the wizard again.
 - `hermes setup` can finish without a usable inference provider when you skip Nous Research. `model.js` runs the same `hermes model` picker as the CLI, so a provider and default model get chosen before `Launch` starts the agent.
 - Native Windows is not supported upstream by Hermes itself. This launcher now forces UTF-8 console I/O for `hermes` and `hermes gateway` to avoid the Windows Unicode crashes shown in the launcher logs, but upstream Windows edge cases may still remain.
 - The launcher uses Pinokio `venv` / `venv_python` handling for the Python environment instead of manual shell activation logic.

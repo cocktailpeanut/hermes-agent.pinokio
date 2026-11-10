@@ -133,13 +133,16 @@ module.exports = {
           href: "reset.js",
         }]
       } else {
+        // Launch intentionally has no default flag: Pinokio auto-runs a default
+        // script whenever the menu renders, so quitting Hermes would immediately
+        // start it again. Setup stays default while unconfigured so a fresh
+        // install still flows into onboarding on its own.
         return [{
           default: !configured,
           icon: "fa-solid fa-sliders",
           text: "Setup",
           href: "setup.js",
         }, {
-          default: configured,
           icon: "fa-solid fa-rocket",
           text: "Launch",
           href: "start.js",
