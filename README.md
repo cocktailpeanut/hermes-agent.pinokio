@@ -7,19 +7,21 @@ This project adds a 1-click Pinokio launcher for [Hermes Agent](https://github.c
 - Clones the Hermes Agent repository into `app/`
 - Creates a Pinokio-managed Python 3.11 virtual environment at `app/env`
 - Installs the main Hermes package from the repository root with Hermes' current `.[all]` extras set
-- Runs `npm install` in the app root for browser tooling support
+- Runs `pnpm install` in the app root for browser tooling support
 - Uses Hermes' default config, auth, memory, and session storage under `~/.hermes`
 
 ## How To Use
 
 1. Click `Install` to clone and install Hermes Agent.
-2. Click `Setup` to run `hermes setup` and configure your provider, model, tools, and optional messaging integrations.
-3. Click `Launch` to start Hermes Gateway and then open the Hermes interactive terminal inside the same Pinokio launcher session.
-4. Click `Launch Without Gateway` to open the Hermes interactive terminal only.
-5. If an older standalone `Gateway` helper is still running from a previous launcher version, you can stop it or click `Launch` to fold gateway ownership back into the main launch flow.
-6. Use `Update` to pull the latest launcher and app changes, then rebuild Python and Node dependencies from a clean state.
-7. Use `Reset` to stop Hermes Gateway and remove the cloned app while keeping your Hermes configuration and data.
-8. Use `Uninstall` to stop Hermes Gateway and remove both the cloned app and Hermes' home directory.
+2. Click `Setup` on a fresh installation to run `hermes setup` and configure your provider, model, tools, and optional messaging integrations.
+3. `Setup` automatically runs `hermes model` afterwards, which opens the interactive provider and model picker, and then starts Hermes. The wizard only runs while no `config.yaml` exists; once Hermes is configured, `Setup` skips the wizard and starts Hermes directly.
+4. Click `Choose Model` at any time to run `hermes model` again, e.g. to switch from a Nous Research model to a local or third-party provider.
+5. Click `Launch` to start Hermes Gateway and then open the Hermes interactive terminal inside the same Pinokio launcher session.
+6. Click `Launch Without Gateway` to open the Hermes interactive terminal only.
+7. If an older standalone `Gateway` helper is still running from a previous launcher version, you can stop it or click `Launch` to fold gateway ownership back into the main launch flow.
+8. Use `Update` to pull the latest launcher and app changes, then rebuild Python and Node dependencies from a clean state.
+9. Use `Reset` to stop Hermes Gateway and remove the cloned app while keeping your Hermes configuration and data.
+10. Use `Uninstall` to stop Hermes Gateway and remove both the cloned app and Hermes' home directory.
 
 Hermes stores its state here:
 
@@ -28,6 +30,9 @@ Hermes stores its state here:
 
 ## Notes
 
+- Pinokio auto-executes menu items marked `default`. `Launch` is therefore deliberately not a default item: otherwise quitting Hermes would end the launch script and Pinokio would start it again right away. `Install` and `Setup` stay default so a fresh install still runs through onboarding and into the first launch automatically.
+- `setup.js` checks for `config.yaml` and never repeats the wizard: once Hermes is configured it starts Hermes instead of showing the wizard again.
+- `hermes setup` can finish without a usable inference provider when you skip Nous Research. `model.js` runs the same `hermes model` picker as the CLI, so a provider and default model get chosen before `Launch` starts the agent.
 - Native Windows is not supported upstream by Hermes itself. This launcher now forces UTF-8 console I/O for `hermes` and `hermes gateway` to avoid the Windows Unicode crashes shown in the launcher logs, but upstream Windows edge cases may still remain.
 - The launcher uses Pinokio `venv` / `venv_python` handling for the Python environment instead of manual shell activation logic.
 - This launcher intentionally uses Hermes' default `~/.hermes` instead of overriding `HERMES_HOME`.

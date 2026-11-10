@@ -38,6 +38,13 @@ module.exports = {
       }
     },
     {
+      when: "{{running('model.js')}}",
+      method: "script.stop",
+      params: {
+        uri: "model.js"
+      }
+    },
+    {
       when: "{{running('update.js')}}",
       method: "script.stop",
       params: {
