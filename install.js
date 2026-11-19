@@ -17,7 +17,10 @@ module.exports = {
           path: "conda_env",
           python: "python=3.14"
         },
-        message: "conda install -y -c conda-forge nodejs=26.10.0",
+        message: [
+          "conda install -y -c conda-forge nodejs=26.10.0",
+          "npm install -g pnpm@12.15.0"
+        ]
       }
     },
     {
@@ -36,7 +39,7 @@ module.exports = {
         conda: "conda_env",
         path: "app",
         message: [
-          "npm install",
+          "pnpm install",
         ]
       }
     }
